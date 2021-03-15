@@ -4,6 +4,7 @@ import ProteccionSobretension from "../../assets/images/ProteccionSobretension.j
 import FocoLED from "../../assets/images/Foco-LED.png"
 import contactoPhilips from "../../assets/images/contacto-Philips.webp"
 import Alert from '@material-ui/lab/Alert';
+
 function ItemListContainer (props) {
   
   return ( 
@@ -14,7 +15,7 @@ function ItemListContainer (props) {
             {props.saludo}
           </Alert>
           <div className="shopping-cart-header">
-            <i className="fa fa-shopping-cart cart-icon" /><span className="badge">3</span>
+            <i className="fa fa-shopping-cart cart-icon" /><span id="badge" className="badge">0</span>
             <div className="shopping-cart-total">
               <span className="lighter-text">Total:</span>
               <span className="main-color-text">$1880.48</span>
@@ -30,8 +31,8 @@ function ItemListContainer (props) {
             <li className="clearfix">
               <img className="img02" src={ProteccionSobretension} alt="item1" />
               <span className="item-name">PHILIPS SPC6244WC/37 - Protector de sobretensión ...</span>
-              <span className="item-price">$744.99</span>
-              <span className="item-quantity">Quantity: 01</span>
+              <p id="PS-price"><span  className="item-price">$744.99</span></p>
+              <p id="PS-quantity"><span className="item-quantity">Quantity: 01</span></p>
             </li>
             <li className="clearfix">
               <img className="img03" src={FocoLED} alt="item1" />

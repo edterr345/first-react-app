@@ -4,8 +4,26 @@ import ProteccionSobretension from "../../assets/images/ProteccionSobretension.j
 import FocoLED from "../../assets/images/Foco-LED.png"
 import contactoPhilips from "../../assets/images/contacto-Philips.webp"
 import Alert from '@material-ui/lab/Alert';
+import ItemCount from "./ItemCount.js"
+import { useState } from 'react';
+import $ from 'jquery'
+
 function ItemsContainer (props) {
-  
+  const [stockActual, setStockActual] = useState(5);
+  const restarStock= (e,nuevoStock) => {
+    e.preventDefault();
+    
+    if((stockActual-nuevoStock)>=0){
+      var cant=$("#badge").text();
+
+      var nueva_cant=parseInt(nuevoStock) + parseInt(cant);
+      console.log(nueva_cant);
+      $("#badge").text(nueva_cant);
+      $("#badge1").text(nueva_cant);
+      setStockActual((stockActual)=> stockActual-nuevoStock);
+    }
+  }
+
   return ( 
     <div >
       <Alert severity="success" color="info">
@@ -55,7 +73,7 @@ function ItemsContainer (props) {
             </div>
             <h3 className="mb-0 font-weight-semibold">$744.99</h3>
             <div> <i className="fa fa-star star" /> <i className="fa fa-star star" /> <i className="fa fa-star star" /> <i className="fa fa-star star" /> </div>
-            <div className="text-muted mb-3">34 reviews</div> <button type="button" className="btn bg-cart"><i className="fa fa-cart-plus mr-2" /> Add to cart</button>
+            <div className="text-muted mb-3">34 reviews</div><ItemCount stock={stockActual} initial={1} onAdd={restarStock}/>
           </div>
         </div>
       </div>
