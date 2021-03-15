@@ -1,14 +1,16 @@
 import React from "react"
-import "./ItemsContainer.css"
-import ProteccionSobretension from "../../assets/images/ProteccionSobretension.jpg"
-import FocoLED from "../../assets/images/Foco-LED.png"
-import contactoPhilips from "../../assets/images/contacto-Philips.webp"
+import "./ItemListContainer.css"
+
 import Alert from '@material-ui/lab/Alert';
 import ItemCount from "./ItemCount.js"
 import { useState } from 'react';
 import $ from 'jquery'
+import ItemList from "./ItemList/ItemList.js"
+import ProteccionSobretension from "../../assets/images/ProteccionSobretension.jpg"
+import FocoLED from "../../assets/images/Foco-LED.png"
+import contactoPhilips from "../../assets/images/contacto-Philips.webp"
 
-function ItemsContainer (props) {
+function ItemListContainer (props) {
   const [stockActual, setStockActual] = useState(5);
   const restarStock= (e,nuevoStock) => {
     e.preventDefault();
@@ -26,11 +28,15 @@ function ItemsContainer (props) {
 
   return ( 
     <div >
-      <Alert severity="success" color="info">
-        {props.saludo}
-      </Alert>
+     {/* <Alert severity="success" color="info">
+            {props.saludo}
+          </Alert>
+      */}
+    <div>
+      <ItemList items={props.items} />
+    </div>
+  {/*
     <div className="container d-flex justify-content-center mt-50 mb-50">
-      
     <div className="row">
       <div className="col-md-4 mt-2">
         <div className="card">
@@ -78,8 +84,9 @@ function ItemsContainer (props) {
         </div>
       </div>
     </div>
+  </div>*/}
   </div>
-  </div>
+    
   );
 }
-      export default ItemsContainer
+export default ItemListContainer

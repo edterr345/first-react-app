@@ -1,11 +1,11 @@
 import React from "react"
-import "./ItemListContainer.scss"
+import "./ItemsCartContainer.scss"
 import ProteccionSobretension from "../../assets/images/ProteccionSobretension.jpg"
 import FocoLED from "../../assets/images/Foco-LED.png"
 import contactoPhilips from "../../assets/images/contacto-Philips.webp"
 import Alert from '@material-ui/lab/Alert';
 
-function ItemListContainer (props) {
+function ItemsCartContainer (props) {
   
   return ( 
     
@@ -46,4 +46,4 @@ function ItemListContainer (props) {
 </div>
 );
 }
-      export default ItemListContainer
+export default ItemsCartContainer
