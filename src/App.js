@@ -51,9 +51,9 @@ function ItemsSetting(){
 
   const [items, setItems] = useState([]);
   let multicontactoPhilips = new Item(1,'MULTICONTACTO PHILIPS SPS6222WB/37','Space Saving – This low-profile outlet adapter is designed for tight spaces and expands your normal wall outlet into a charging station with two outlets and two USB charging ports Charging Hub – Delivers 2. 1 Amps of power to rapidly charge your phone, tablet, MP3 player, smart watch and more',100,'$400.00', contactoPhilips);
-  let focoPhilips = new Item(2,'Foco Philips LEDBulb - 5.5W- A19','', 200,'34.50',FocoLED);
-  let protectorSobretensionPhilips= new Item(3,'PHILIPS SPC6244WC/37 - Protector de sobretensión ...','', 300,'745.00',ProteccionSobretension);
-
+  let focoPhilips = new Item(2,'Foco Philips LED Bulb - 5.5W- A19','', 200,'$34.50',FocoLED);
+  let protectorSobretensionPhilips= new Item(3,'PHILIPS SPC6244WC/37 - Protector de sobretensión ...','', 300,'$745.00',ProteccionSobretension);
+  
   useEffect(() => {
     
     new Promise((cargarDatosSuccess, cargarDatosFailure) =>{
@@ -63,7 +63,7 @@ function ItemsSetting(){
       }, 2000);
 
     }).then(resultado => setItems(resultado))
-  });
+  }, []);
   return (
     <div>
       <ItemListContainer items={items}/>
