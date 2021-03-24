@@ -1,8 +1,11 @@
 import $ from 'jquery'
 import ItemCount from "../ItemCount.js"
 import ItemDetailContainer from './ItemDetailContainer.js';
-import React, { Component, useEffect, useState } from 'react'
-
+import React, { useEffect, useState } from 'react'
+import {
+  BrowserRouter as Router,
+  Link,
+} from "react-router-dom";
 
 function Item (props) {
     
@@ -31,7 +34,7 @@ function Item (props) {
       </div>
       <div className="card-body bg-light text-center">
         <div className="mb-2">
-          <h6 className="font-weight-semibold mb-2"> <a href="/#" className="text-default mb-2" data-abc="true">{props.item.nombre}</a> </h6> <a href="/#" className="text-muted" data-abc="true">Iluminación</a>
+          <h6 className="font-weight-semibold mb-2"> <Link to={ '/item/' + props.item.id } className="text-default mb-2" data-abc="true">{props.item.nombre}</Link> </h6> <a href="/#" className="text-muted" data-abc="true">Iluminación</a>
         </div>
         <h3 className="mb-0 font-weight-semibold">{props.item.precio}</h3>
         <div> <i className="fa fa-star star" /> <i className="fa fa-star star" /> <i className="fa fa-star star" /> <i className="fa fa-star star" /> </div>

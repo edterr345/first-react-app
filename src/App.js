@@ -8,7 +8,15 @@ import ItemListContainer from "./components/MainSection/ItemListContainer.js"
 import ProteccionSobretension from "./assets/images/ProteccionSobretension.jpg"
 import FocoLED from "./assets/images/Foco-LED.png"
 import contactoPhilips from "./assets/images/contacto-Philips.webp"
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  useRouteMatch
+} from "react-router-dom";
+import Category from './components/MainSection/Category';
 
 class Item {
   constructor(id,nombre,descripcion, stock, precio, imagen) {
@@ -38,15 +46,33 @@ export default class App extends Component {
   render() {
     return (
       <>
+      
+        <Router>
         <Navbar />
-        {/*<ItemListContainer saludo="Bienvenido"/>*/}
-        <ItemsCartContainer saludo="Bienvenido"/>
-        <ItemsSetting/>
+        <Switch>
+          <Route exact path="/">
+            {/*<ItemListContainer saludo="Bienvenido"/>*/}
+            <ItemsCartContainer saludo="Bienvenido"/>
+          </Route>
+          <Route path="/categorias/1">
+          <ItemsCartContainer saludo="Bienvenido"/>
+          <ItemsSetting/>
+          </Route>
+          <Route path="/categorias">
+            {/*<ItemListContainer saludo="Bienvenido"/>*/}
+            <ItemsCartContainer saludo="Bienvenido"/>
+            <Category/>
+            
+          </Route>
+        
+         
+        </Switch>
+        </Router>
       </>
     )
   }
 }
-
+    
 function ItemsSetting(){
 
   const [items, setItems] = useState([]);
@@ -70,5 +96,4 @@ function ItemsSetting(){
     </div>
   );
 }
-
 

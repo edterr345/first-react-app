@@ -9,7 +9,14 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import './ItemDetail.css';
 import ItemDetail from './ItemDetail';
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  useRouteMatch
+} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
@@ -38,9 +45,11 @@ export default function ItemDetailContainer(props1) {
 
   return (
     <div>
+      
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Ver detalle
+      Ver detalle
       </Button>
+      
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
