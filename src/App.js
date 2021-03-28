@@ -17,6 +17,7 @@ import {
   useRouteMatch
 } from "react-router-dom";
 import Category from './components/MainSection/Category';
+import ItemDetailContainer from './components/MainSection/Item/ItemDetailContainer';
 
 class Item {
   constructor(id,nombre,descripcion, stock, precio, imagen) {
@@ -30,6 +31,8 @@ class Item {
 }
 
 export default class App extends Component {
+
+
   jQuerycode = () => {
     (function () {
       $(".shopping-cart").fadeOut();
@@ -42,6 +45,7 @@ export default class App extends Component {
   componentDidMount(){
     this.jQuerycode()
   }
+ 
 
   render() {
     return (
@@ -55,26 +59,25 @@ export default class App extends Component {
             <ItemsCartContainer saludo="Bienvenido"/>
           </Route>
           <Route path="/categorias/1">
-          <ItemsCartContainer saludo="Bienvenido"/>
+         {/* <ItemsCartContainer saludo="Bienvenido"/>*/}
           <ItemsSetting/>
           </Route>
           <Route path="/categorias">
             {/*<ItemListContainer saludo="Bienvenido"/>*/}
-            <ItemsCartContainer saludo="Bienvenido"/>
+           {/* <ItemsCartContainer saludo="Bienvenido"/>*/}
             <Category/>
-            
           </Route>
-        
-         
+          <Route path="/item/:id" component={ItemDetailContainer} />
         </Switch>
         </Router>
       </>
     )
   }
 }
-    
-function ItemsSetting(){
+  
 
+function ItemsSetting(){
+  
   const [items, setItems] = useState([]);
   let multicontactoPhilips = new Item(1,'MULTICONTACTO PHILIPS SPS6222WB/37','Space Saving – This low-profile outlet adapter is designed for tight spaces and expands your normal wall outlet into a charging station with two outlets and two USB charging ports Charging Hub – Delivers 2. 1 Amps of power to rapidly charge your phone, tablet, MP3 player, smart watch and more',100,'$400.00', contactoPhilips);
   let focoPhilips = new Item(2,'Foco Philips LED Bulb - 5.5W- A19','', 200,'$34.50',FocoLED);
@@ -90,10 +93,22 @@ function ItemsSetting(){
 
     }).then(resultado => setItems(resultado))
   }, []);
-  return (
-    <div>
-      <ItemListContainer items={items}/>
-    </div>
-  );
+
+  console.log(items.length)
+  if(items.length==0){
+    return (
+      <div>
+       
+      </div>
+    );
+  }
+  else{
+    return (
+      <div>
+        <ItemListContainer items={items}/>
+      </div>
+    );
+  }
+ 
 }
 

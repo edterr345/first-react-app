@@ -34,7 +34,7 @@ function Item (props) {
       </div>
       <div className="card-body bg-light text-center">
         <div className="mb-2">
-          <h6 className="font-weight-semibold mb-2"> <Link to={ '/item/' + props.item.id } className="text-default mb-2" data-abc="true">{props.item.nombre}</Link> </h6> <a href="/#" className="text-muted" data-abc="true">Iluminación</a>
+          <h6 className="font-weight-semibold mb-2"> <a href="/#" className="text-default mb-2" data-abc="true">{props.item.nombre}</a> </h6> <a href="/#" className="text-muted" data-abc="true">Iluminación</a>
         </div>
         <h3 className="mb-0 font-weight-semibold">{props.item.precio}</h3>
         <div> <i className="fa fa-star star" /> <i className="fa fa-star star" /> <i className="fa fa-star star" /> <i className="fa fa-star star" /> </div>
@@ -49,7 +49,7 @@ function Item (props) {
 
 function GetItems(props){
 
-  const [itemDetails, setItemDetails] = useState([]);
+  const [itemDetails, setItemDetails] = useState({});
   
 
 
@@ -87,12 +87,29 @@ function GetItems(props){
       }, 3000);
 
     }).then(resultado => setItemDetails(resultado))
-  }, [props]);
+  }, []);
+
+  if(Object.entries(itemDetails).length === 0){
+    return (
+      <div>
+       
+      </div>
+    );
+  }
+  else{
   return (
     <div>
-      <ItemDetailContainer itemDetails={itemDetails}/>
+
+        <Link to={{
+          pathname: `/item/${itemDetails.id}`,
+          state: { itemDetails: itemDetails }
+        }}>
+    <button className="rounded-lg bg-indigo-400 px-4 py-2 mt-4 font-bold hover:bg-indigo-500">Ver detalle</button>
+    </Link>
+      {/*<ItemDetailContainer itemDetails={itemDetails}/> */}
     </div>
   );
+  }
 }
 
 
