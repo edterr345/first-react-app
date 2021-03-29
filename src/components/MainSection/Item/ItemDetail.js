@@ -1,6 +1,59 @@
+import ItemCount from "../ItemCount";
+import $ from 'jquery'
+import React, { useEffect, useState } from 'react'
+
+
 function ItemDetail (props) {
-    var htmlstr=props.itemDetails.descripcion;
+  let count=0;
+
+  const [stockActual, setStockActual] = useState(props.itemDetails.stock);
+  const restarStock= (e,nuevoStock) => {
+    e.preventDefault();
+
+    if(nuevoStock<=props.itemDetails.stock){
+      $( "#botona"+props.itemDetails.id ).addClass( "d-none" );
+      $( "#botons"+props.itemDetails.id ).removeClass( "d-none" );
+      $("#cantidad"+props.itemDetails.id).attr('disabled', 'disabled');
+    }
+      var cant=$("#badge1").text();
+      $( "#botonc"+props.itemDetails.id ).removeClass( "d-none" );
+     
+       
+
+    if((stockActual-nuevoStock)>=0){
+     
+      var nueva_cant=parseInt(nuevoStock) + parseInt(cant);
+     
+      $("#badge1").text(nueva_cant);
+      $("#badge").text(nueva_cant);
+      setStockActual((stockActual)=> stockActual-nuevoStock);
+    }
+  };
+
+  const sumarStock= (e,nuevoStock) => {
+    e.preventDefault();
+    var cant=$("#badge1").text();
+
+
+    $( "#botona"+props.itemDetails.id ).removeClass( "d-none" );
+    $( "#botons"+props.itemDetails.id ).addClass( "d-none" );
+    $("#cantidad"+props.itemDetails.id).removeAttr('disabled');
     
+      
+    if((parseInt(nuevoStock) + parseInt(stockActual))<=props.itemDetails.stock){
+     
+      var nueva_cant=parseInt(cant) - parseInt(nuevoStock) ;
+      if(parseInt(nueva_cant)===0)
+      $( "#botonc"+props.itemDetails.id ).addClass( "d-none" );
+      $("#badge1").text(nueva_cant);
+      $("#badge").text(nueva_cant);
+      setStockActual((stockActual)=> parseInt(nuevoStock) + parseInt(stockActual));
+    }
+  };
+
+
+    var htmlstr=props.itemDetails.descripcion;
+
     return (
 <main className="container">
 {/* Left Column / Product Image */}
@@ -32,8 +85,10 @@ function ItemDetail (props) {
   {/* Product Pricing */}
   <div className="product-price">
     <span>{props.itemDetails.precio}</span>
-    <a href="/#" className="cart-btn">Add to cart</a>
+   
   </div>
+  <ItemCount stock={stockActual} initial={1} onAdd={restarStock} onSubtract={sumarStock} id={props.itemDetails.id}/>
+    
 </div>
 </main>
 );

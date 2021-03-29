@@ -1,28 +1,12 @@
-import $ from 'jquery'
-import ItemCount from "../ItemCount.js"
-import ItemDetailContainer from './ItemDetailContainer.js';
 import React, { useEffect, useState } from 'react'
 import {
-  BrowserRouter as Router,
   Link,
 } from "react-router-dom";
 
 function Item (props) {
     
   
-    const [stockActual, setStockActual] = useState(props.item.stock);
-    const restarStock= (e,nuevoStock) => {
-      e.preventDefault();
-      console.log(nuevoStock);
-      if((stockActual-nuevoStock)>=0){
-        var cant=$("#badge").text();
-        var nueva_cant=parseInt(nuevoStock) + parseInt(cant);
-       
-        $("#badge").text(nueva_cant);
-        $("#badge1").text(nueva_cant);
-        setStockActual((stockActual)=> stockActual-nuevoStock);
-      }
-    };
+  
     
     const classIm="card-img img-fluid im"+props.item.id;
     return (    
@@ -38,7 +22,7 @@ function Item (props) {
         </div>
         <h3 className="mb-0 font-weight-semibold">{props.item.precio}</h3>
         <div> <i className="fa fa-star star" /> <i className="fa fa-star star" /> <i className="fa fa-star star" /> <i className="fa fa-star star" /> </div>
-        <div className="text-muted mb-3">34 reviews</div> <ItemCount stock={stockActual} initial={1} onAdd={restarStock} id={props.item.id}/>
+        <div className="text-muted mb-3">34 reviews</div> 
        <GetItems item={props.item}/>
       </div>
     </div>

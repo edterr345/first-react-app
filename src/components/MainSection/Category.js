@@ -1,11 +1,9 @@
 
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
     Link,
-    useParams,
-    useRouteMatch
+    useParams
   } from "react-router-dom";
 import App from "../../App";
 

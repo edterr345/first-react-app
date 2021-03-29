@@ -11,10 +11,7 @@ import contactoPhilips from "./assets/images/contacto-Philips.webp"
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  useParams,
-  useRouteMatch
+  Route
 } from "react-router-dom";
 import Category from './components/MainSection/Category';
 import ItemDetailContainer from './components/MainSection/Item/ItemDetailContainer';
@@ -103,6 +100,7 @@ function ItemsSetting(){
     );
   }
   else{
+    
     return (
       <div>
         <ItemListContainer items={items}/>

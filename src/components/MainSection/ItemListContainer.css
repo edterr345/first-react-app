@@ -46,6 +46,11 @@
     color: #fff
 }
 
+
+.bg-cart-1 {
+    background-color: #358ED7;
+    color: #fff
+}
 .bg-cart:hover {
     color: #fff
 }
