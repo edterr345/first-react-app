@@ -1,10 +1,10 @@
 import ItemCount from "../ItemCount";
 import $ from 'jquery'
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 
 
 function ItemDetail (props) {
-  let count=0;
+
 
   const [stockActual, setStockActual] = useState(props.itemDetails.stock);
   const restarStock= (e,nuevoStock) => {

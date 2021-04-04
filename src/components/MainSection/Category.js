@@ -2,8 +2,7 @@
 import {
     Switch,
     Route,
-    Link,
-    useParams
+    Link
   } from "react-router-dom";
 import App from "../../App";
 
@@ -43,7 +42,7 @@ function Category() {
 
     function Child() {
         
-        let { id } = useParams();
+        //let { id } = useParams();
       
         return (
         <Route exact path="/">

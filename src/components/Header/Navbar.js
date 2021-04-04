@@ -3,15 +3,21 @@ import "./Navbar.css"
 import CartWidget from "./CartWidget.js"
 //import Logo from "../../assets/images/logo.jpg"
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
-  useParams,
-  useRouteMatch
 } from "react-router-dom";
 
-const Navbar = () => (
+
+function Navbar (props) {
+
+  const listCategories = props.categories.map((category,index) =>
+ 
+      <Link key={index} to={{
+        pathname: `/categorias/${category.nombre}`,
+        state: { category_name: category.nombre }
+      }} className="nav-item nav-link">{category.icon}<span>{category.nombre}</span></Link>
+  );
+
+  return(
   <nav className="navbar navbar-expand-xl navbar-dark bg-dark">
   
   <Link className="navbar-brand" to="/"><i className="fa fa-plug" />Eléctrica<b>Terrones</b></Link>  		
@@ -30,9 +36,11 @@ const Navbar = () => (
       <a href="/#" className="nav-item nav-link"><i className="fa fa-home" /><span>Inicio</span></a>
       <a href="/#" className="nav-item nav-link"><i className="fa fa-people-carry" /><span>Provedores</span></a>
       
-      <Link className="nav-item nav-link" to="/categorias"><i className="fa fa-plus-square" /><span>Categorias</span></Link>
-      
-      <a href="/#" className="nav-item nav-link"><i className="fa fa-plug" /><span>Productos</span></a>
+      {/*<Link className="nav-item nav-link" to="/categorias"><i className="fa fa-plus-square" /><span>Categorias</span></Link>*/}
+      {listCategories}  
+   
+
+    {/*<a href="/#" className="nav-item nav-link"><i className="fa fa-plug" /><span>Productos</span></a>*/}
       {/*<a href="/#" className="nav-item nav-link"><i className="fa fa-envelope" /><span>Mensajes</span></a>		
       <a href="/#" className="nav-item nav-link"><i className="fa fa-bell" /><span>Notificaciones</span></a>*/}
       <CartWidget />
@@ -49,6 +57,9 @@ const Navbar = () => (
     </div>
   </div>
 </nav>
+  );
+}
 
-)
+
+
 export default Navbar
