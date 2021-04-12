@@ -14,9 +14,7 @@ import Cable2 from "./assets/images/cable2.jpg"
 
 import Interruptor1 from "./assets/images/interruptor1.jpg"
 import Interruptor2 from "./assets/images/interruptor2.jpg"
-
-
-
+import firebase from "./firebase";
 
 
 import {
@@ -72,8 +70,11 @@ export default class App extends Component {
       
         <Router>
         <CategoriesSetting />
+        <GetItemsFireStore/>
         <Switch>
           <Route exact path="/" component={withRouter(ItemsSetting)}>
+            
+
             {/*<ItemListContainer saludo="Bienvenido"/>*/}
            
             
@@ -95,28 +96,69 @@ export default class App extends Component {
   }
 }
   
+
+function GetItemsFireStore(){
+  
+  useEffect(() => {
+    const db =  firebase.firestore();
+    const itemsCollection = db.collection("items");
+
+    itemsCollection
+      .get()
+      .then((resp) => {
+        if (resp.size === 0) {
+          console.log("Sin datos");
+        }
+
+        resp.docs.map((c) => console.log({ id: c.id, ...c.data() }));
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  return (<div></div>);
+
+}
+
+
 function CategoriesSetting(){
   
   const [categories, setCategories] = useState([]);
 
 
-  let iluminacion = new Categoria(1,'iluminacion','descripcion',<i className="fa fa-lightbulb" />);
-  let cables = new Categoria(2,'cables','descripcion',<i className="fa fa-plug" />);
-  let interruptores= new Categoria(3,'interruptores','descripcion',<i className="fa fa-toggle-on" />);
+  //let iluminacion = new Categoria(1,'iluminacion','descripcion',<i className="fa fa-lightbulb" />);
+  //let cables = new Categoria(2,'cables','descripcion',<i className="fa fa-plug" />);
+  //let interruptores= new Categoria(3,'interruptores','descripcion',<i className="fa fa-toggle-on" />);
   
-
-
   useEffect(() => {
-    
-    new Promise((cargarDatosSuccess, cargarDatosFailure) =>{
-     
-      setTimeout(()=>{
-        cargarDatosSuccess([iluminacion, cables,interruptores]);
-      }, 2000);
+    const db =  firebase.firestore();
+    const categoriasCollection = db.collection("categories");
 
-    }).then(resultado => setCategories(resultado))
+    categoriasCollection
+      .get()
+      .then((resp) => {
+        if (resp.size === 0) {
+          console.log("Sin datos");
+        }
+        const categorias = []
+      
+        var i=0;
+        resp.forEach(categoria => {
+          categorias[i]={ id: categoria.id,icon: null, ...categoria.data() };
+          console.log(categorias);
+          categorias[i].icon=<i className={categorias[i].icono} />
+          i=i+1     
+        })
+
+        
+        setCategories(categorias)
+        //resp.docs.map((c) => console.log({ id: c.id, ...c.data() }));
+      })
+      .catch((error) => console.log(error));
   }, []);
 
+ 
+ 
+  
 
   if(categories.length===0){
     return (
@@ -143,55 +185,68 @@ function ItemsSetting(props){
   
   const [items, setItems] = useState([]);
   //id,nombre,descripcion, stock, precio, imagen
-  //Iluminación
-  let multicontactoPhilips = new Item(1,'MULTICONTACTO PHILIPS SPS6222WB/37','Space Saving – This low-profile outlet adapter is designed for tight spaces and expands your normal wall outlet into a charging station with two outlets and two USB charging ports Charging Hub – Delivers 2. 1 Amps of power to rapidly charge your phone, tablet, MP3 player, smart watch and more',100,'$400.00', contactoPhilips,'Iluminación');
-  let focoPhilips = new Item(2,'Foco Philips LED Bulb - 5.5W- A19','ILUMINACION LED: Disfruta de los ahorros de energia y durabilidad que garantiza Philips LED.\n'+
-  'LUZ CÁLIDA: Ideal para ambientes acogedores, como una recámara o sala de estár.\n'+
-  'LARGA DURACIÓN: Una vida de aproximadamente 15,000 horas (o 15 años).\n'+
-  'SIN PARPADEO: La tecnología LED de Philips busca lo mejor para tus ojos. Cuentan con parámetros de alta calidad que aseguran que su iluminación siempre va a ser la más comoda para ti y tu familia.', 200,'$34.50',FocoLED,'Iluminación');
-  let protectorSobretensionPhilips= new Item(3,'PHILIPS SPC6244WC/37 - Protector de sobretensión ...','Power Station – Alimenta y protege 4 dispositivos electrónicos y 2 dispositivos portátiles con el protector de sobretensión de 4 salidas Philips con 2 puertos USB'+
-  'Cable de diseño: alimenta tus dispositivos electrónicos con el elegante cable trenzado sin enredos de 1,2 m.'+
-  'Enchufe plano: el diseño del enchufe plano ahorra espacio es discreto, al tiempo que también te deja más espacio para muebles o soportes'+
-  'Seguridad: la regleta de alimentación tiene una calificación de protección de 720 Joules, un interruptor de circuito integrado para ayudar a proteger sus salidas de CA de sobrecarga y tecnología de apagado automático que detiene la alimentación a los dispositivos cuando expira la protección contra sobretensiones.', 300,'$745.00',ProteccionSobretension,'Iluminación');
-  
-  //Cables
-  let cable1 = new Item(4,'CABLE INDIANA THW-LS/THHW-LS CALIBRE 12 NEGRO 100 M','Cable Indiana THW-LS/THHW-LS en calibre 12 color negro, formado por un cable de 19 hilos con aislamiento de policloruro de vinilo (PVC). Tiene la función de emplearse en instalaciones eléctricas para distintas construcciones.Cable Indiana THW-LS/THHW-LS de 100 metros, es un conductor de cobre sólido en calibre 12 color negro, formado por un cable de 19 hilos con aislamiento de policloruro de vinilo (PVC). Se desliza fácilmente para agilizar su instalación, cuenta con propiedades auto extinguibles que le permiten colocarse en superficies secas, mojadas o en aceite. Proporciona una resistencia de hasta 600 volts entre fases y temperaturas irregulares. Funciona en instalaciones eléctricas para distintas construcciones. Incluye carrete para proporcionar un mejor manejo, evitando que este se enrede.',50,'974.28', Cable1,'Cables');
-  let cable2 = new Item(5,'CABLE USO RUDO SJT 3 POLOS CALIBRE 14 NEGRO INDIANA','Cable calibre 14 Indiana, con dos conductores de cobre en temple suave flexible, formado por 41 hilos con aislamiento de policloruro de vinilo (PVC) tipo SJT en color negro. Para voltajes de hasta 300 volts entre fases y temperatura máxima de operación en servicio normal de 60°C. Aprobación NOM ANCE. Su venta por metro permite adquirir la cantidad necesaria para cumplir con las necesidades del trabajo a realizar.', 100,'$30.48',Cable2,'Cables');
-  
-  //Interruptores
-  let interruptor1=new Item(6,'INTERRUPTOR TERMOMAGNETICO S/GAB. 1P 15A 240V QO115','Los interruptores termomagnéticos, sirven para desconectar y proteger contra sobrecargas y cortos circuitos. Soporta un gran número de operaciones de conexión y desconexión, lo que lo hace muy útil en el control manual de una instalación.',50, '$167.00',Interruptor1,'Interruptores');
-  let interruptor2=new Item(7,'INTERRUPTOR TERMOMAGNÉTICO 1 POLO 20 AMPERES SQUARE D','Interruptor termomagnético de 1 polo 20 amperes (breaker) automático de acción rápida con protección contra sobrecarga y cortocircuito. Cuenta con indicador de disparo ante falla (VISI-TRIP).',50, '$129.00',Interruptor2,'Interruptores');
-
-  let itemsSelected;
-  if (props.location.state !==undefined) {
-    if(props.location.state.category_name==='iluminacion')
-    itemsSelected=[multicontactoPhilips,focoPhilips,protectorSobretensionPhilips];
-    if(props.location.state.category_name==='cables'){
-    itemsSelected=[cable1,cable2];
-    }
-    if(props.location.state.category_name==='interruptores')
-    itemsSelected=[interruptor1,interruptor2];
-  }
  
-  else{
-    itemsSelected=[multicontactoPhilips,focoPhilips,protectorSobretensionPhilips,interruptor1,interruptor2,cable1,cable2]
+  //Interruptores
+  //let interruptor1=new Item(6,'INTERRUPTOR TERMOMAGNETICO S/GAB. 1P 15A 240V QO115','Los interruptores termomagnéticos, sirven para desconectar y proteger contra sobrecargas y cortos circuitos. Soporta un gran número de operaciones de conexión y desconexión, lo que lo hace muy útil en el control manual de una instalación.',50, '$167.00',Interruptor1,'Interruptores');
+  //let interruptor2=new Item(7,'INTERRUPTOR TERMOMAGNÉTICO 1 POLO 20 AMPERES SQUARE D','Interruptor termomagnético de 1 polo 20 amperes (breaker) automático de acción rápida con protección contra sobrecarga y cortocircuito. Cuenta con indicador de disparo ante falla (VISI-TRIP).',50, '$129.00',Interruptor2,'Interruptores');
+
+var categoria_a_buscar="";
+  if (props.location.state !==undefined) {
+    categoria_a_buscar=props.location.state.category_name;
   }
   
+ 
   
-  
-
-
-
   useEffect(() => {
-    
-    new Promise((cargarDatosSuccess, cargarDatosFailure) =>{
-     
-      setTimeout(()=>{
-        cargarDatosSuccess(itemsSelected);
-      }, 2000);
+    const db =  firebase.firestore();
+    const itemsCollection = db.collection("items");
+if(categoria_a_buscar!=="")
+    itemsCollection
+      .where("categoria", "==", categoria_a_buscar)
+      .get()
+      .then((resp) => {
+        if (resp.size === 0) {
+          console.log("Sin datos");
+        }
+        const items = []
+        var i=0;
+        resp.forEach(item => {
+          items[i]={ id: item.id, imagen: "", ...item.data() };
+          var imagen=require(`./assets/${items[i].imagen_nombre}`).default;
+          items[i].imagen=imagen;
+          i=i+1     
+        })
+        setItems(items)
+        //resp.docs.map((c) => console.log({ id: c.id, ...c.data() }));
+      })
+      .catch((error) => console.log(error));
 
-    }).then(resultado => setItems(resultado))
+      else
+      itemsCollection
+      .get()
+      .then((resp) => {
+        if (resp.size === 0) {
+          console.log("Sin datos");
+        }
+        const items = []
+        var i=0;
+        resp.forEach(item => {
+          items[i]={ id: item.id, imagen: "", ...item.data() };
+          var imagen=require(`./assets/${items[i].imagen_nombre}`).default;
+          items[i].imagen=imagen;
+          i=i+1     
+        })
+        setItems(items)
+        //resp.docs.map((c) => console.log({ id: c.id, ...c.data() }));
+      })
+      .catch((error) => console.log(error));
+
+
+
   }, []);
+  
+
+  
 
 
   if(items.length===0){
